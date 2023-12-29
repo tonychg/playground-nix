@@ -1,0 +1,21 @@
+version: "3"
+tasks:
+  ssh-keygen:
+    desc: Generate an ssh ed25519 keys pair
+    silent: true
+    requires:
+      vars:
+        - CLI_ARGS
+    cmds:
+      - |
+        ssh-keygen -t ed25519 -f {{.CLI_ARGS}}
+  deploy:
+    desc: Deploy current configuration using deploy-rs
+    cmds:
+      - |
+        nix run github:serokell/deploy-rs -- .
+  default:
+    silent: true
+    cmds:
+      - |
+        task --list-all
